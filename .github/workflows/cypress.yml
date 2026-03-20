@@ -13,7 +13,9 @@ jobs:
 
     strategy:
       matrix:
-        browser: [chrome, firefox]
+        browser: [chrome, firefox, edge]
+        shardIndex: [1, 2]
+        shardTotal: [2]
 
     steps:
       - name: Checkout code
@@ -31,3 +33,4 @@ jobs:
         run: |
           npx cypress run \
           --browser ${{ matrix.browser }} \
+          --spec "$(node scripts/shard-specs.js ${{ matrix.shardIndex }} ${{ matrix.shardTotal }})"
